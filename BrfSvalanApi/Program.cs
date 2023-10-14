@@ -67,10 +67,17 @@ using var lcd = new Lcd1602(registerSelectPin: 0,
                         backlightBrightness: 0.1f,
                         readWritePin: 1,
                         controller: new GpioController(PinNumberingScheme.Logical, driver));
+int currentLine = 0;
 
-
-
-app.Run();
+while (true)
+{
+    lcd.Clear();
+    lcd.SetCursorPosition(0, currentLine);
+    lcd.Write(DateTime.Now.ToShortTimeString());
+    currentLine = (currentLine == 3) ? 0 : currentLine + 1;
+    Thread.Sleep(1000);
+}
+//app.Run();
 
 internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
 {
