@@ -1,4 +1,8 @@
 using BrfSvalanApi;
+using Iot.Device.CharacterLcd;
+using Iot.Device.Mcp23xxx;
+using System.Device.Gpio;
+using System.Device.I2c;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,9 +41,17 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
-I2cDisplay display = new I2cDisplay();
-display.InitializeLCD();
-display.Write("Hello world!");
+using I2cDevice i2cDevice = I2cDevice.Create(new I2cConnectionSettings(1, 0x20));
+using Mcp23008 serialDriver = new Mcp23008(i2cDevice);
+using var lcd = new Lcd1602(dataPins: new int[] { 0, 1, 2, 3 },
+                        registerSelectPin: 4,
+                        readWritePin: 5,
+                        enablePin: 6,
+                        controller: new GpioController(PinNumberingScheme.Logical, serialDriver));
+lcd.Clear();
+lcd.BacklightOn = true;
+lcd.SetCursorPosition(0, 0);
+lcd.Write($"Hi from wellsb.com");
 
 app.Run();
 
