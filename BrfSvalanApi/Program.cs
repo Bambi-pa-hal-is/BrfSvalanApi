@@ -41,7 +41,7 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
-using I2cDevice i2cDevice = I2cDevice.Create(new I2cConnectionSettings(1, 0x20));
+using I2cDevice i2cDevice = I2cDevice.Create(new I2cConnectionSettings(1, 0x27));
 using Mcp23008 serialDriver = new Mcp23008(i2cDevice);
 using var lcd = new Lcd1602(dataPins: new int[] { 0, 1, 2, 3 },
                         registerSelectPin: 4,
