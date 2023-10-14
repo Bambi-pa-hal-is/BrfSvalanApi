@@ -72,9 +72,8 @@ int currentLine = 0;
 while (true)
 {
     lcd.Clear();
-    lcd.SetCursorPosition(0, currentLine);
+    lcd.SetCursorPosition(0, 0);
     lcd.Write(DateTime.Now.ToShortTimeString());
-    currentLine = (currentLine == 3) ? 0 : currentLine + 1;
     Thread.Sleep(1000);
 }
 //app.Run();
