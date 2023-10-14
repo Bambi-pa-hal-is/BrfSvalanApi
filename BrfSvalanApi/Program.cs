@@ -1,3 +1,5 @@
+using BrfSvalanApi;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -34,6 +36,10 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast");
+
+I2cDisplay display = new I2cDisplay();
+display.InitializeLCD();
+display.Write("Hello world!");
 
 app.Run();
 
