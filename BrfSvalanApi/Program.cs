@@ -50,6 +50,11 @@ using var lcd = new Lcd1602(dataPins: new int[] { 0, 1, 2, 3 },
                         controller: new GpioController(PinNumberingScheme.Logical, serialDriver));
 lcd.Clear();
 lcd.BacklightOn = true;
+for(int i = 0; i < 10; i++)
+{
+    lcd.BacklightOn = i % 2 == 0;
+    Thread.Sleep(1000);
+}
 lcd.SetCursorPosition(0, 0);
 lcd.Write($"Hi from wellsb.com");
 
