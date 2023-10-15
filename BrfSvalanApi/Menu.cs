@@ -36,6 +36,8 @@
         public void Action(MenuManager menuManager)
         {
             Items[_currentIndex].Action();
+            var item = Items[_currentIndex];
+            menuManager.SetMenu(item.SubMenu);
         }
 
         public void Display(LcdDisplay lcdDisplay)

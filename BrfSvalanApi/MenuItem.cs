@@ -4,9 +4,9 @@
     {
         public string Name { get; }
         public Action Action { get; }
-        public Menu SubMenu { get; }
+        public IMenu SubMenu { get; }
 
-        public MenuItem(string name, Action action, Menu subMenu = null)
+        public MenuItem(string name, Action action, IMenu subMenu = null)
         {
             Name = name;
             Action = action;

@@ -34,7 +34,7 @@ namespace BrfSvalanApi
 
             _rotaryEncoder.RotatedClockwise += (sender, args) => menuManager.HandleRotation(true);
             _rotaryEncoder.RotatedCounterClockwise += (sender, args) => menuManager.HandleRotation(false);
-            _rotaryEncoder.ButtonPressed += (sender, args) => menuManager.HandleSelection();
+            _rotaryEncoder.ButtonReleased += (sender, args) => menuManager.HandleSelection();
 
             while (!stoppingToken.IsCancellationRequested)
             {

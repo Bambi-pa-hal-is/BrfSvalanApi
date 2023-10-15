@@ -10,7 +10,7 @@
             _display = display;
         }
 
-        public void SetMenu(Menu menu)
+        public void SetMenu(IMenu menu)
         {
             _currentMenu = menu;
             DisplayCurrentSelection();
