@@ -18,29 +18,32 @@ namespace BrfSvalanApi
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var currentValue = 0;
-            var prevValue = 0;
             Console.WriteLine("Executing printservice!");
-            _rotaryEncoder.RotatedClockwise += (sender, x) =>
-            {
-                currentValue++;
-            };
-            _rotaryEncoder.RotatedCounterClockwise += (sender, x) =>
-            {
-                currentValue--;
-            };
-            _rotaryEncoder.ButtonPressed += (sender, x) =>
-            {
-                currentValue += 100;
-            };
+
+            var applicationDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var printSubMenu = new FileMenu(applicationDirectory);
+
+            var mainMenu = new Menu("Vad vill du göra?");
+            mainMenu.Items.Add(new MenuItem("Print", () => { }, printSubMenu));
+            mainMenu.Items.Add(new MenuItem("Scan", () => { }));
+
+            // Add USB files here. Each MenuItem could be like new MenuItem("File1.txt", SelectFileAction);
+
+            var menuManager = new MenuManager(_lcd);
+            menuManager.SetMenu(mainMenu);
+
+            _rotaryEncoder.RotatedClockwise += (sender, args) => menuManager.HandleRotation(true);
+            _rotaryEncoder.RotatedCounterClockwise += (sender, args) => menuManager.HandleRotation(false);
+            _rotaryEncoder.ButtonPressed += (sender, args) => menuManager.HandleSelection();
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                if (currentValue != prevValue)
-                {
-                    _lcd.ClearDisplay();
-                    _lcd.Write($"Position: {currentValue}");
-                    prevValue = currentValue;
-                }
+                //if (currentValue != prevValue)
+                //{
+                //    _lcd.ClearDisplay();
+                //    _lcd.Write($"Position: {currentValue}");
+                //    prevValue = currentValue;
+                //}
                 await Task.Delay(10, stoppingToken);  // Poll every 100ms, adjust as needed
             }
 
