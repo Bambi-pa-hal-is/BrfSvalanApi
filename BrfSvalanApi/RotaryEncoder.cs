@@ -13,6 +13,7 @@ namespace BrfSvalanApi
         public event EventHandler RotatedClockwise;
         public event EventHandler RotatedCounterClockwise;
         public event EventHandler ButtonPressed;
+        public event EventHandler ButtonReleased;
 
         public RotaryEncoder(int dtPin, int clkPin, int swPin)
         {
@@ -28,8 +29,9 @@ namespace BrfSvalanApi
 
             _lastDtState = _controller.Read(_dtPin);
 
-            _controller.RegisterCallbackForPinValueChangedEvent(_dtPin, PinEventTypes.Falling, RotaryTurned);
+            _controller.RegisterCallbackForPinValueChangedEvent(_dtPin, PinEventTypes.Falling | PinEventTypes.Rising, RotaryTurned);
             _controller.RegisterCallbackForPinValueChangedEvent(_swPin, PinEventTypes.Falling, ButtonPushed);
+            _controller.RegisterCallbackForPinValueChangedEvent(_swPin, PinEventTypes.Rising, ButtonReleasedCallback);
         }
 
         private void RotaryTurned(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
@@ -53,6 +55,11 @@ namespace BrfSvalanApi
         private void ButtonPushed(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
         {
             ButtonPressed?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ButtonReleasedCallback(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
+        {
+            ButtonReleased?.Invoke(this, EventArgs.Empty);
         }
     }
 }
