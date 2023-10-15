@@ -11,15 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHostedService<PrintService>();
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
@@ -58,25 +55,25 @@ app.MapGet("/weatherforecast", () =>
 //}
 //lcd.SetCursorPosition(0, 0);
 //lcd.Write($"Hi from wellsb.com");
-using I2cDevice i2c = I2cDevice.Create(new I2cConnectionSettings(1, 0x27));
-using var driver = new Pcf8574(i2c);
-using var lcd = new Lcd1602(registerSelectPin: 0,
-                        enablePin: 2,
-                        dataPins: new int[] { 4, 5, 6, 7 },
-                        backlightPin: 3,
-                        backlightBrightness: 0.1f,
-                        readWritePin: 1,
-                        controller: new GpioController(PinNumberingScheme.Logical, driver));
-int currentLine = 0;
+//using I2cDevice i2c = I2cDevice.Create(new I2cConnectionSettings(1, 0x27));
+//using var driver = new Pcf8574(i2c);
+//using var lcd = new Lcd1602(registerSelectPin: 0,
+//                        enablePin: 2,
+//                        dataPins: new int[] { 4, 5, 6, 7 },
+//                        backlightPin: 3,
+//                        backlightBrightness: 0.1f,
+//                        readWritePin: 1,
+//                        controller: new GpioController(PinNumberingScheme.Logical, driver));
+//int currentLine = 0;
 
-while (true)
-{
-    lcd.Clear();
-    lcd.SetCursorPosition(0, 0);
-    lcd.Write(DateTime.Now.ToShortTimeString());
-    Thread.Sleep(1000);
-}
-//app.Run();
+//while (true)
+//{
+//    lcd.Clear();
+//    lcd.SetCursorPosition(0, 0);
+//    lcd.Write(DateTime.Now.ToShortTimeString());
+//    Thread.Sleep(1000);
+//}
+app.Run();
 
 internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
 {
