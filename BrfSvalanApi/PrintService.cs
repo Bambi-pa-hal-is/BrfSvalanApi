@@ -37,6 +37,7 @@ namespace BrfSvalanApi
             {
                 new PrintPipeline()
             });
+            _lcd.SetDefaultDisplay(mainMenu);
             _lcd.SetDisplay(mainMenu);
             _rotaryEncoder.RotatedClockwise += (sender, args) => inputManager.HandleRotation(true);
             _rotaryEncoder.RotatedCounterClockwise += (sender, args) => inputManager.HandleRotation(false);

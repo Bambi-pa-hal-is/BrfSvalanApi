@@ -10,22 +10,20 @@ namespace BrfSvalanApi.Print
 
         public SelectDocumentStep()
         {
-            var directoryPath = AppDomain.CurrentDomain.BaseDirectory;
-            if (!Directory.Exists(directoryPath))
+            if (!Directory.Exists(DriveManager.MountPoint))
             {
-                throw new DirectoryNotFoundException($"The directory '{directoryPath}' was not found.");
+                throw new DirectoryNotFoundException($"The directory '{DriveManager.MountPoint}' was not found.");
             }
-            Files = Directory.GetFiles(directoryPath).ToList();
+            Files = Directory.GetFiles(DriveManager.MountPoint).ToList();
         }
 
         public void Reset()
         {
-            var directoryPath = AppDomain.CurrentDomain.BaseDirectory;
-            if (!Directory.Exists(directoryPath))
+            if (!Directory.Exists(DriveManager.MountPoint))
             {
-                throw new DirectoryNotFoundException($"The directory '{directoryPath}' was not found.");
+                throw new DirectoryNotFoundException($"The directory '{DriveManager.MountPoint}' was not found.");
             }
-            Files = Directory.GetFiles(directoryPath).ToList();
+            Files = Directory.GetFiles(DriveManager.MountPoint).ToList();
         }
 
         public void Action(LcdDisplay display)

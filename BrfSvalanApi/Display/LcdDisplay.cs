@@ -11,6 +11,7 @@ namespace BrfSvalanApi.Display
         private Pcf8574 _driver;
         private Lcd1602 _lcd;
         private IRenderableComponent? _renderableComponent { get; set; }
+        private IRenderableComponent? _defaultRenderableComponent { get; set; }
 
         public LcdDisplay()
         {
@@ -83,6 +84,21 @@ namespace BrfSvalanApi.Display
             _lcd?.Dispose();
             _driver?.Dispose();
             _i2c?.Dispose();
+        }
+
+        internal void SetDefaultDisplay(IRenderableComponent renderableComponent)
+        {
+            _defaultRenderableComponent = renderableComponent;
+        }
+
+        public void GoToDefaultDisplay()
+        {
+            if(_defaultRenderableComponent != null)
+            {
+                SetDisplay(_defaultRenderableComponent);
+                _defaultRenderableComponent.Load();
+                Render(_defaultRenderableComponent);
+            }
         }
     }
 }

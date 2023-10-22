@@ -7,15 +7,19 @@ namespace BrfSvalanApi
 
         public List<IPipeline> Pipelines { get; set; }
 
+        public DriveManager DriveManager { get; set; }
+
         public int Selected { get; set; } = 0;
 
         public MainMenu() {
             Pipelines = new List<IPipeline>();
+            DriveManager = new DriveManager();
         }
 
         public MainMenu(List<IPipeline> pipelines)
         {
             Pipelines = pipelines;
+            DriveManager = new DriveManager();
         }
 
         public void Action(LcdDisplay display)
@@ -25,6 +29,12 @@ namespace BrfSvalanApi
             selectedPipeline.Reset();
             if (pipelineAsRenderableComponent != null)
             {
+                var canMountUsb = DriveManager.Mount();
+                if (!canMountUsb)
+                {
+                    display.SetDisplay(new ErrorDisplay("Kan inte hitta usb."));
+                    return;
+                }
                 display.SetDisplay(pipelineAsRenderableComponent);
             }
         }
@@ -64,6 +74,12 @@ namespace BrfSvalanApi
                 lcdDisplay.Write(0, 0, "Vad vill du gora?");
                 lcdDisplay.Write(0, 1, " Print  >Scan");
             }
+        }
+
+        public void Load()
+        {
+            Console.WriteLine("Unloaded mounted usb");
+            DriveManager.Unmount();
         }
     }
 }

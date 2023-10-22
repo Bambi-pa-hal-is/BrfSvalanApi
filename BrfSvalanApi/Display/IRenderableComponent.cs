@@ -6,6 +6,7 @@
         void Increase(LcdDisplay display);
         void Decrease(LcdDisplay display);
         void Action(LcdDisplay display);
+        void Load();
     }
 
 
