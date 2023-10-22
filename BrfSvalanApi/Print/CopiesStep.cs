@@ -24,6 +24,10 @@ namespace BrfSvalanApi.Print
             Copies++;
         }
 
+        public void Load()
+        {
+        }
+
         public void Render(LcdDisplay display)
         {
             display.ClearDisplay();

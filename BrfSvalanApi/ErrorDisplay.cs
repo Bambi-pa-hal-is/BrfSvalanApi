@@ -27,5 +27,9 @@ namespace BrfSvalanApi
             display.ClearDisplay();
             display.Write(Error);
         }
+
+        public void Load()
+        {
+        }
     }
 }

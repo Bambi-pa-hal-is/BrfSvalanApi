@@ -99,5 +99,9 @@ namespace BrfSvalanApi.Print
             }
             Console.WriteLine("After action step! " + PipelineStep);
         }
+
+        public void Load()
+        {
+        }
     }
 }

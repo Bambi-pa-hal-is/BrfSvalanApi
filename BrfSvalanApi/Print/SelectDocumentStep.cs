@@ -75,5 +75,9 @@ namespace BrfSvalanApi.Print
                 printProperties.File = GetCurrentFile();
             }
         }
+
+        public void Load()
+        {
+        }
     }
 }
