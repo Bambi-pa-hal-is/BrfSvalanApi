@@ -16,6 +16,7 @@ namespace BrfSvalanApi
             Console.WriteLine("print service constructed!");
             _lcd = new LcdDisplay();
             _rotaryEncoder = new RotaryEncoder(17, 27, 22);
+            _rotaryEncoder = new RotaryEncoder(27, 17, 22);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -37,8 +38,8 @@ namespace BrfSvalanApi
                 new PrintPipeline()
             });
             _lcd.SetDisplay(mainMenu);
-            _rotaryEncoder.RotatedClockwise += (sender, args) => inputManager.HandleRotation(false);
-            _rotaryEncoder.RotatedCounterClockwise += (sender, args) => inputManager.HandleRotation(true);
+            _rotaryEncoder.RotatedClockwise += (sender, args) => inputManager.HandleRotation(true);
+            _rotaryEncoder.RotatedCounterClockwise += (sender, args) => inputManager.HandleRotation(false);
             _rotaryEncoder.ButtonReleased += (sender, args) => inputManager.HandleSelection();
 
             while (!stoppingToken.IsCancellationRequested)
