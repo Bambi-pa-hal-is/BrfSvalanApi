@@ -60,6 +60,10 @@ namespace BrfSvalanApi.Print
             {
                 renderableComponent.Increase(display);
             }
+            else
+            {
+                Console.WriteLine("current step is null");
+            }
         }
 
         public void Decrease(LcdDisplay display)
