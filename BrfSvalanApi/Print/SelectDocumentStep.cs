@@ -82,7 +82,14 @@ namespace BrfSvalanApi.Print
             var printProperties = pipelineProperties as PrintProperties;
             if (printProperties != null)
             {
-                printProperties.File = GetCurrentFile();
+                if(Files.Count == 0)
+                {
+                    printProperties.File = null;
+                }
+                else
+                {
+                    printProperties.File = GetCurrentFile();
+                }
             }
         }
 
