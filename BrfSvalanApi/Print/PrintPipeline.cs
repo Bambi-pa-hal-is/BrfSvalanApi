@@ -83,7 +83,15 @@ namespace BrfSvalanApi.Print
             }
             currentStep.UpdatePipelineProperties(Properties);
             PipelineStep++;
-            display.Update();
+            if (PipelineStep >= Steps.Count)
+            {
+                display.ClearDisplay();
+                display.Write(0, 0, "printing....");
+            }
+            else
+            {
+                display.Update();
+            }
             Console.WriteLine("After action step! " + PipelineStep);
         }
     }
