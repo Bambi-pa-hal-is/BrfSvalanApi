@@ -19,7 +19,8 @@ namespace BrfSvalanApi.Print
             Properties = new PrintProperties();
             Steps = new List<IPipelineStep>()
             {
-                new CopiesStep()
+                new SelectDocumentStep(),
+                new CopiesStep(),
             };
         }
 

@@ -26,6 +26,7 @@ namespace BrfSvalanApi.Print
 
         public void Render(LcdDisplay display)
         {
+            display.ClearDisplay();
             display.Write(0, 0, "Hur manga kopior?");
             display.Write(0, 1, Copies.ToString());
         }
