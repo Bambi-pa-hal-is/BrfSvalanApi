@@ -36,6 +36,7 @@ namespace BrfSvalanApi
             {
                 Selected = Pipelines.Count-1;
             }
+            Console.WriteLine(Selected);
             display.Update();
         }
 
@@ -46,6 +47,7 @@ namespace BrfSvalanApi
             {
                 Selected = 0;
             }
+            Console.WriteLine(Selected);
             display.Update();
         }
 
@@ -54,7 +56,7 @@ namespace BrfSvalanApi
             lcdDisplay.ClearDisplay();
             if(Selected == 0)
             {
-                lcdDisplay.Write(0, 0, "Vad vill du göra?");
+                lcdDisplay.Write(0, 0, "Vad vill du gora?");
                 lcdDisplay.Write(0, 1, ">Print   Scan");
             }
             else
