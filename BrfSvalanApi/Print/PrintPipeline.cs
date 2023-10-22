@@ -26,11 +26,18 @@ namespace BrfSvalanApi.Print
 
         public void Reset()
         {
-            foreach(var step in Steps)
+            PipelineStep = 0;
+            foreach (var step in Steps)
             {
                 step.Reset();
                 step.UpdatePipelineProperties(Properties);
             }
+            Properties = new PrintProperties();
+            Steps = new List<IPipelineStep>()
+            {
+                new SelectDocumentStep(),
+                new CopiesStep(),
+            };
         }
 
         private IPipelineStep GetCurrentStep()
@@ -67,6 +74,7 @@ namespace BrfSvalanApi.Print
 
         public void Action(LcdDisplay display)
         {
+            Console.WriteLine("Next step! " + PipelineStep);
             var currentStep = GetCurrentStep();
             var renderableComponent = currentStep as IRenderableComponent;
             if (renderableComponent != null)
@@ -76,6 +84,7 @@ namespace BrfSvalanApi.Print
             currentStep.UpdatePipelineProperties(Properties);
             PipelineStep++;
             display.Update();
+            Console.WriteLine("After action step! " + PipelineStep);
         }
     }
 }
