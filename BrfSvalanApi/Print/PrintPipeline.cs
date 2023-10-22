@@ -88,6 +88,7 @@ namespace BrfSvalanApi.Print
             if (PipelineStep >= Steps.Count)
             {
                 display.ClearDisplay();
+                Console.WriteLine("PRINTING!");
                 display.Write(0, 0, "printing....");
                 CupsPrinter.Print(Properties);
                 display.GoToDefaultDisplay();
