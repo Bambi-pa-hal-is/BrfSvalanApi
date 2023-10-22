@@ -58,6 +58,12 @@ namespace BrfSvalanApi.Print
 
         public void Render(LcdDisplay display)
         {
+            var currentFile = GetCurrentFile();
+            var fileName = Path.GetFileName(currentFile);
+            if(fileName.Length > 16)
+            {
+                fileName = fileName.Substring(0, 16);
+            }
             display.ClearDisplay();
             display.Write(0, 0, "Vilken fil?");
             display.Write(0, 1, GetCurrentFile());
