@@ -43,7 +43,7 @@ namespace BrfSvalanApi.Print
         public void Increase(LcdDisplay display)
         {
             SelectFile++;
-            if(SelectFile > Files.Count)
+            if(SelectFile >= Files.Count)
             {
                 SelectFile = 0;
             }
@@ -51,10 +51,6 @@ namespace BrfSvalanApi.Print
 
         private string GetCurrentFile()
         {
-            if(Files.Count == 0)
-            {
-                return "No files exist";
-            }
             return Files[SelectFile];
         }
 
