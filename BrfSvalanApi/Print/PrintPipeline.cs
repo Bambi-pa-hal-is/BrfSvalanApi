@@ -89,8 +89,8 @@ namespace BrfSvalanApi.Print
             {
                 display.ClearDisplay();
                 Console.WriteLine("PRINTING!");
-                Reset();
                 CupsPrinter.Print(Properties);
+                Reset();
                 display.Write(0, 0, "printing....");
                 Thread.Sleep(1000);
                 display.GoToDefaultDisplay();
