@@ -59,10 +59,7 @@ namespace BrfSvalanApi.Print
             if (renderableComponent != null)
             {
                 renderableComponent.Increase(display);
-            }
-            else
-            {
-                Console.WriteLine("current step is null");
+                display.Update();
             }
         }
 
@@ -73,6 +70,7 @@ namespace BrfSvalanApi.Print
             if(renderableComponent != null)
             {
                 renderableComponent.Decrease(display);
+                display.Update();
             }
         }
 
