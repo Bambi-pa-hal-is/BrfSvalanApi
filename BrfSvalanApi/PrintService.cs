@@ -1,4 +1,5 @@
-﻿using Iot.Device.CharacterLcd;
+﻿using BrfSvalanApi.Display;
+using Iot.Device.CharacterLcd;
 using System.Device.Gpio;
 using System.Device.I2c;
 
@@ -21,20 +22,20 @@ namespace BrfSvalanApi
             Console.WriteLine("Executing printservice!");
 
             var applicationDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var printSubMenu = new FileMenu(applicationDirectory);
+            //var printSubMenu = new FileMenu(applicationDirectory);
 
-            var mainMenu = new Menu("Vad vill du göra?");
-            mainMenu.Items.Add(new MenuItem("Print", () => { }, printSubMenu));
-            mainMenu.Items.Add(new MenuItem("Scan", () => { }));
+            //var mainMenu = new Menu("Vad vill du göra?");
+            //mainMenu.Items.Add(new MenuItem("Print", () => { }, printSubMenu));
+            //mainMenu.Items.Add(new MenuItem("Scan", () => { }));
 
             // Add USB files here. Each MenuItem could be like new MenuItem("File1.txt", SelectFileAction);
 
-            var menuManager = new MenuManager(_lcd);
-            menuManager.SetMenu(mainMenu);
-
-            _rotaryEncoder.RotatedClockwise += (sender, args) => menuManager.HandleRotation(true);
-            _rotaryEncoder.RotatedCounterClockwise += (sender, args) => menuManager.HandleRotation(false);
-            _rotaryEncoder.ButtonReleased += (sender, args) => menuManager.HandleSelection();
+            var inputManager = new InputManager(_lcd);
+            var mainMenu = new MainMenu();
+            _lcd.SetDisplay(mainMenu);
+            _rotaryEncoder.RotatedClockwise += (sender, args) => inputManager.HandleRotation(true);
+            _rotaryEncoder.RotatedCounterClockwise += (sender, args) => inputManager.HandleRotation(false);
+            _rotaryEncoder.ButtonReleased += (sender, args) => inputManager.HandleSelection();
 
             while (!stoppingToken.IsCancellationRequested)
             {

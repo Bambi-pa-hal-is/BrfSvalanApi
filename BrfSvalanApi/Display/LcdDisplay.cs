@@ -3,13 +3,14 @@ using Iot.Device.Pcx857x;
 using System.Device.Gpio;
 using System.Device.I2c;
 
-namespace BrfSvalanApi
+namespace BrfSvalanApi.Display
 {
     public class LcdDisplay : IDisposable
     {
         private I2cDevice _i2c;
         private Pcf8574 _driver;
         private Lcd1602 _lcd;
+        private IRenderableComponent? _renderableComponent { get; set; }
 
         public LcdDisplay()
         {
@@ -39,7 +40,34 @@ namespace BrfSvalanApi
             _lcd.Write(value);
         }
 
-        public void Write(int x, int y,string value)
+        public IRenderableComponent? GetDisplayedComponent()
+        {
+            return _renderableComponent;
+        }
+
+        public void SetDisplay(IRenderableComponent renderableComponent)
+        {
+            _renderableComponent = renderableComponent;
+            Update();
+        }
+
+        public void Update()
+        {
+            if (_renderableComponent != null)
+            {
+                _renderableComponent.Render(this);
+            }
+        }
+
+        public void Render(IRenderableComponent? renderableComponent)
+        {
+            if (renderableComponent != null)
+            {
+                renderableComponent.Render(this);
+            }
+        }
+
+        public void Write(int x, int y, string value)
         {
             _lcd.SetCursorPosition(x, y);
             _lcd.Write(value);
