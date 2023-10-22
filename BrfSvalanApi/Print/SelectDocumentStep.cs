@@ -66,7 +66,7 @@ namespace BrfSvalanApi.Print
             }
             display.ClearDisplay();
             display.Write(0, 0, "Vilken fil?");
-            display.Write(0, 1, GetCurrentFile());
+            display.Write(0, 1, fileName);
         }
 
         public void UpdatePipelineProperties(IPipelineProperties pipelineProperties)
