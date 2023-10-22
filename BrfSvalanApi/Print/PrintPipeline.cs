@@ -95,6 +95,12 @@ namespace BrfSvalanApi.Print
             }
             else
             {
+                var nextStep = GetCurrentStep();
+                var nextStepRenderableComponent = nextStep as IRenderableComponent;
+                if(nextStepRenderableComponent != null)
+                {
+                    nextStepRenderableComponent.Load();
+                }
                 display.Update();
             }
             Console.WriteLine("After action step! " + PipelineStep);

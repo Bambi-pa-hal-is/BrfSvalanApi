@@ -92,6 +92,11 @@ namespace BrfSvalanApi.Print
 
         public void Load()
         {
+            if (!Directory.Exists(DriveManager.MountPoint))
+            {
+                throw new DirectoryNotFoundException($"The directory '{DriveManager.MountPoint}' was not found.");
+            }
+            Files = Directory.GetFiles(DriveManager.MountPoint).ToList();
         }
     }
 }
