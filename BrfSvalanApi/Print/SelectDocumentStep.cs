@@ -26,7 +26,7 @@ namespace BrfSvalanApi.Print
             Files = Directory.GetFiles(DriveManager.MountPoint).ToList();
         }
 
-        public void Action(LcdDispl ay display)
+        public void Action(LcdDisplay display)
         {
         }
 
