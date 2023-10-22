@@ -1,4 +1,5 @@
 ﻿using BrfSvalanApi.Display;
+using BrfSvalanApi.Print;
 using Iot.Device.CharacterLcd;
 using System.Device.Gpio;
 using System.Device.I2c;
@@ -31,7 +32,10 @@ namespace BrfSvalanApi
             // Add USB files here. Each MenuItem could be like new MenuItem("File1.txt", SelectFileAction);
 
             var inputManager = new InputManager(_lcd);
-            var mainMenu = new MainMenu();
+            var mainMenu = new MainMenu(new List<IPipeline>()
+            {
+                new PrintPipeline()
+            });
             _lcd.SetDisplay(mainMenu);
             _rotaryEncoder.RotatedClockwise += (sender, args) => inputManager.HandleRotation(true);
             _rotaryEncoder.RotatedCounterClockwise += (sender, args) => inputManager.HandleRotation(false);
