@@ -50,7 +50,7 @@ namespace BrfSvalanApi
                 //    _lcd.Write($"Position: {currentValue}");
                 //    prevValue = currentValue;
                 //}
-                await Task.Delay(10, stoppingToken);  // Poll every 100ms, adjust as needed
+                await Task.Delay(1, stoppingToken);  // Poll every 100ms, adjust as needed
             }
 
             // Cleanup resources when the service stops
