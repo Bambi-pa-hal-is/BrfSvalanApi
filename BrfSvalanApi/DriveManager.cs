@@ -44,7 +44,8 @@ namespace BrfSvalanApi
 
             foreach (var device in targetDevices)
             {
-                if (output.Contains(device))
+                var deviceWithoutDev = device.Replace("/dev/", "");
+                if (output.Contains(deviceWithoutDev))
                 {
                     return device;
                 }
