@@ -15,10 +15,12 @@ namespace BrfSvalanApi
             if (!string.IsNullOrEmpty(deviceToMount))
             {
                 RunCommand($"sudo mount -o uid=1000,gid=1000 {deviceToMount} {MountPoint}");
+                Console.WriteLine($"Mounted drive {deviceToMount}");
                 return true;
             }
             else
             {
+                Console.WriteLine("Failed to mount drives");
                 return false;
             }
         }

@@ -26,7 +26,7 @@ namespace BrfSvalanApi.Print
             Files = Directory.GetFiles(DriveManager.MountPoint).ToList();
         }
 
-        public void Action(LcdDisplay display)
+        public void Action(LcdDispl ay display)
         {
         }
 
@@ -51,20 +51,34 @@ namespace BrfSvalanApi.Print
 
         private string GetCurrentFile()
         {
+            if(Files.Count == 0)
+            {
+                return "No files exist";
+            }
             return Files[SelectFile];
         }
 
         public void Render(LcdDisplay display)
         {
-            var currentFile = GetCurrentFile();
-            var fileName = Path.GetFileName(currentFile);
-            if(fileName.Length > 16)
+            if (Files.Count == 0)
             {
-                fileName = fileName.Substring(0, 16);
+
+                display.ClearDisplay();
+                display.Write(0, 0, "Inga filer hittades");
             }
-            display.ClearDisplay();
-            display.Write(0, 0, "Vilken fil?");
-            display.Write(0, 1, fileName);
+            else
+            {
+                var currentFile = GetCurrentFile();
+                var fileName = Path.GetFileName(currentFile);
+                if (fileName.Length > 16)
+                {
+                    fileName = fileName.Substring(0, 16);
+                }
+                display.ClearDisplay();
+                display.Write(0, 0, "Vilken fil?");
+                display.Write(0, 1, fileName);
+            }
+            
         }
 
         public void UpdatePipelineProperties(IPipelineProperties pipelineProperties)
