@@ -32,6 +32,7 @@ namespace BrfSvalanApi
                 var canMountUsb = DriveManager.Mount();
                 display.ClearDisplay();
                 display.Write("Laser usb...");
+                Thread.Sleep(500);
                 if (!canMountUsb)
                 {
                     display.SetDisplay(new ErrorDisplay("Kan inte hitta usb."));

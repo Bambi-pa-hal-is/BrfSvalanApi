@@ -61,6 +61,8 @@ namespace BrfSvalanApi.Print
 
                 display.ClearDisplay();
                 display.Write(0, 0, "Inga filer hittades");
+                Thread.Sleep(1000);
+                display.GoToDefaultDisplay();
             }
             else
             {
