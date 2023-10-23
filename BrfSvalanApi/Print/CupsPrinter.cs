@@ -33,7 +33,7 @@ namespace BrfSvalanApi.Print
 
         private static bool IsPrinterIdle()
         {
-            var statusCommand = $"lpstat -p {PrinterName} | grep 'idle'";
+            var statusCommand = $"lpstat -p {PrinterName} | grep 'Unable'";
             var statusOutput = ExecuteShellCommand(statusCommand);
             return !string.IsNullOrEmpty(statusOutput);
         }
