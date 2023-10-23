@@ -88,7 +88,6 @@ namespace BrfSvalanApi.Print
             {
                 display.ClearDisplay();
                 Console.WriteLine("PRINTING!");
-                Reset();
                 display.Write(0, 0, "Printing...");
                 var result = CupsPrinter.Print(Properties);
                 if(!result)
@@ -97,6 +96,7 @@ namespace BrfSvalanApi.Print
                     display.Write(0, 0, "Skrivaren ar");
                     display.Write(0, 1, "offline");
                 }
+                Reset();
                 Thread.Sleep(1000);
                 display.GoToDefaultDisplay();
                 return;
