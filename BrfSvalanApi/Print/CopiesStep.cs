@@ -26,6 +26,7 @@ namespace BrfSvalanApi.Print
 
         public void Load()
         {
+            Console.WriteLine("Loaded SelectDocumentStep");
         }
 
         public void Render(IDisplay display)

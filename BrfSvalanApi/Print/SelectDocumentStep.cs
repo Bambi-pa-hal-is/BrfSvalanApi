@@ -95,6 +95,7 @@ namespace BrfSvalanApi.Print
 
         public void Load()
         {
+            Console.WriteLine("Loaded SelectDocumentStep");
             if (!Directory.Exists(DriveManager.GetMountPoint()))
             {
                 throw new DirectoryNotFoundException($"The directory '{DriveManager.GetMountPoint()}' was not found.");
