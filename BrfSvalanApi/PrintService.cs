@@ -31,6 +31,7 @@ namespace BrfSvalanApi
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             Console.WriteLine("Executing printservice!");
+            DriveManager.Mount();
 
             var inputManager = new InputManager(_display);
             var mainMenu = new MainMenu(new List<IPipeline>()
@@ -45,6 +46,7 @@ namespace BrfSvalanApi
             await _inputReader.StartListening(stoppingToken);
 
             // Cleanup resources when the service stops
+            DriveManager.Unmount();
             _display.ClearDisplay();
             _display.Dispose();
         }

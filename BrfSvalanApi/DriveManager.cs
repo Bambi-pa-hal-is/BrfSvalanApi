@@ -3,11 +3,11 @@ using System.Runtime.InteropServices;
 
 namespace BrfSvalanApi
 {
-    public class DriveManager
+    public static class DriveManager
     {
-        private readonly string[] targetDevices = { "/dev/sda1", "/dev/sdb1", "/dev/sdc1" };
-        //public static string MountPoint = "/media/printdrive";
-        //public static string MountPoint2 = "/media/printdrive";
+        private static readonly string[] TargetDevices = { "/dev/sda1", "/dev/sdb1", "/dev/sdc1" };
+
+        public static bool IsUsbMounted = false;
 
         public static string GetMountPoint()
         {
@@ -21,29 +21,37 @@ namespace BrfSvalanApi
             }
         }
 
-        public bool Mount()
+        public static bool Mount()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return true;
             }
+
             EnsureMountPointExists();
+            if (IsDriveMounted())
+            {
+                Unmount();
+            }
+
+
             string deviceToMount = GetDeviceToMount();
-            Unmount();
             if (!string.IsNullOrEmpty(deviceToMount))
             {
                 RunCommand($"sudo mount -o uid=1000,gid=1000 {deviceToMount} {GetMountPoint()}");
                 Console.WriteLine($"Mounted drive {deviceToMount}");
+                IsUsbMounted = true;
                 return true;
             }
             else
             {
                 Console.WriteLine("Failed to mount drives");
+                IsUsbMounted = false;
                 return false;
             }
         }
 
-        private void EnsureMountPointExists()
+        private static void EnsureMountPointExists()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -55,22 +63,37 @@ namespace BrfSvalanApi
             }
         }
 
-        public void Unmount()
+        public static bool IsDriveMounted()
+        {
+            string output = RunCommand($"mount | grep {GetMountPoint()}");
+            return !string.IsNullOrEmpty(output);
+        }
+
+        public static void Unmount()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return;
             }
-            Console.WriteLine("Unmounting now!");
-            RunCommand($"sudo umount {GetMountPoint()}");
-            Console.WriteLine("Unmounting complete!");
+            EnsureMountPointExists();
+            if (IsDriveMounted())
+            {
+                Console.WriteLine("Unmounting now!");
+                RunCommand($"sudo umount {GetMountPoint()}");
+                Console.WriteLine("Unmounting complete!");
+            }
+            else
+            {
+                Console.WriteLine("Drive is not mounted!");
+            }
+            IsUsbMounted = false;
         }
 
-        private string GetDeviceToMount()
+        private static string GetDeviceToMount()
         {
             string output = RunCommand("lsblk");
 
-            foreach (var device in targetDevices)
+            foreach (var device in TargetDevices)
             {
                 var deviceWithoutDev = device.Replace("/dev/", "");
                 if (output.Contains(deviceWithoutDev))
@@ -82,7 +105,7 @@ namespace BrfSvalanApi
             return string.Empty;  // Return an empty string if no device is found
         }
 
-        private string RunCommand(string command)
+        private static string RunCommand(string command)
         {
             var process = new Process
             {

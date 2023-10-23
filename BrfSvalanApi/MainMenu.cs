@@ -7,19 +7,16 @@ namespace BrfSvalanApi
 
         public List<IPipeline> Pipelines { get; set; }
 
-        public DriveManager DriveManager { get; set; }
 
         public int Selected { get; set; } = 0;
 
         public MainMenu() {
             Pipelines = new List<IPipeline>();
-            DriveManager = new DriveManager();
         }
 
         public MainMenu(List<IPipeline> pipelines)
         {
             Pipelines = pipelines;
-            DriveManager = new DriveManager();
         }
 
         public void Action(IDisplay display)
@@ -29,11 +26,11 @@ namespace BrfSvalanApi
             selectedPipeline.Reset();
             if (pipelineAsRenderableComponent != null)
             {
-                var canMountUsb = DriveManager.Mount();
+                var isUsbMounted = DriveManager.IsUsbMounted;
                 display.ClearDisplay();
                 display.Write("Laser usb...");
                 Thread.Sleep(500);
-                if (!canMountUsb)
+                if (!isUsbMounted)
                 {
                     display.SetDisplay(new ErrorDisplay("Kan inte hitta usb."));
                     return;
