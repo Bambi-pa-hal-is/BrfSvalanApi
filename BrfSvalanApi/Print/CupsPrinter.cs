@@ -8,24 +8,36 @@ namespace BrfSvalanApi.Print
     {
         private const string PrinterName = "epson";
 
-        public static void Print(PrintProperties properties)
+        public static bool Print(PrintProperties properties)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return;
+                return true;
             }
             if (string.IsNullOrEmpty(properties.File))
             {
                 throw new ArgumentException("File path cannot be null or empty.");
+            }
+            if (!IsPrinterIdle())
+            {
+                return false;
             }
 
             var command = $"lp -d {PrinterName} -n {properties.Copies} {properties.File}";
             Console.WriteLine(command);
 
             ExecuteShellCommand(command);
+            return true;
         }
 
-        private static void ExecuteShellCommand(string command)
+        private static bool IsPrinterIdle()
+        {
+            var statusCommand = $"lpstat -p {PrinterName} | grep 'idle'";
+            var statusOutput = ExecuteShellCommand(statusCommand);
+            return !string.IsNullOrEmpty(statusOutput);
+        }
+
+        private static string ExecuteShellCommand(string command)
         {
             var processInfo = new ProcessStartInfo("bash", $"-c \"{command}\"")
             {
@@ -35,14 +47,18 @@ namespace BrfSvalanApi.Print
             };
 
             var process = Process.Start(processInfo);
-            if( process != null )
+            string output = "";
+
+            if (process != null)
             {
+                output = process.StandardOutput.ReadToEnd();
                 process.WaitForExit();
                 if (process.ExitCode != 0)
                 {
                     throw new InvalidOperationException($"Command `{command}` exited with code {process.ExitCode}");
                 }
             }
+            return output.Trim();
         }
     }
 }
