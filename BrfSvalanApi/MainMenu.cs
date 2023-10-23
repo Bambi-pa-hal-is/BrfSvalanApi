@@ -78,8 +78,6 @@ namespace BrfSvalanApi
 
         public void Load()
         {
-            Console.WriteLine("Unloaded mounted usb");
-            DriveManager.Unmount();
         }
     }
 }
