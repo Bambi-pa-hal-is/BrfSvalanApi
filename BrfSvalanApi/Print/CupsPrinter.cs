@@ -28,8 +28,14 @@ namespace BrfSvalanApi.Print
             var command = $"lp -d {PrinterName} -n {properties.Copies} {properties.File}";
             Console.WriteLine(command);
 
-            ExecuteShellCommand(command);
+            var response = ExecuteShellCommand(command);
+            Console.WriteLine(response);
             return true;
+        }
+
+        public static void CancelAllJobs()
+        {
+            var command = $"cancel -a {PrinterName}";
         }
 
         private static bool IsPrinterIdle()
