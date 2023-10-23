@@ -30,6 +30,12 @@ namespace BrfSvalanApi.Print
 
             var response = ExecuteShellCommand(command);
             Console.WriteLine(response);
+            if (!IsPrinterIdle())
+            {
+                Console.WriteLine("Failed to print because printer is offline. Cancelling all jobs!");
+                CancelAllJobs();
+                return false;
+            }
             return true;
         }
 
