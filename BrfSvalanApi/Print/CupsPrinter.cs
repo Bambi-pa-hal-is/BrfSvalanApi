@@ -35,6 +35,7 @@ namespace BrfSvalanApi.Print
         {
             var statusCommand = $"lpstat -p {PrinterName} | grep 'Unable'";
             var statusOutput = ExecuteShellCommand(statusCommand);
+            Console.WriteLine(statusOutput);
             return !string.IsNullOrEmpty(statusOutput);
         }
 
