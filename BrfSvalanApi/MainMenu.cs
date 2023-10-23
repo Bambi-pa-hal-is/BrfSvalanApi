@@ -26,7 +26,7 @@ namespace BrfSvalanApi
             selectedPipeline.Reset();
             if (pipelineAsRenderableComponent != null)
             {
-                var isUsbMounted = DriveManager.IsUsbMounted;
+                var isUsbMounted = DriveManager.Mount();
                 display.ClearDisplay();
                 display.Write("Laser usb...");
                 Thread.Sleep(500);
