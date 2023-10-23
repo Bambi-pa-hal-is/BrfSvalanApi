@@ -19,11 +19,11 @@ namespace BrfSvalanApi.Print
                 Console.WriteLine(properties.File + " Is this really null?");
                 throw new ArgumentException("File path cannot be null or empty.");
             }
-            if (!IsPrinterIdle())
-            {
-                Console.WriteLine("Failed to print because printer is offline.");
-                return false;
-            }
+            //if (!IsPrinterIdle())
+            //{
+            //    Console.WriteLine("Failed to print because printer is offline.");
+            //    return false;
+            //}
 
             var command = $"lp -d {PrinterName} -n {properties.Copies} {properties.File}";
             Console.WriteLine(command);
