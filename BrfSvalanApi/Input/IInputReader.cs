@@ -6,6 +6,7 @@
         public event EventHandler RotatedCounterClockwise;
         public event EventHandler ButtonPressed;
         public event EventHandler ButtonReleased;
+        public event EventHandler ResetEvent;
         public Task StartListening(CancellationToken stoppingToken);
     }
 }

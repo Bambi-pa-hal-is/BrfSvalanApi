@@ -31,6 +31,12 @@ namespace BrfSvalanApi
             }
         }
 
+        public void Reset()
+        {
+            _display.ClearDisplay();
+            _display.GoToDefaultDisplay();
+        }
+
         public void HandleSelection()
         {
             // Check if it's been at least one second since the last call

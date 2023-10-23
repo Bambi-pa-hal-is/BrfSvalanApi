@@ -2,6 +2,11 @@
 
 namespace BrfSvalanApi.Input
 {
+    using System;
+    using System.Device.Gpio;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class RotaryEncoder : IInputReader
     {
         private readonly GpioController _controller;
@@ -9,11 +14,14 @@ namespace BrfSvalanApi.Input
         private readonly int _clkPin;
         private readonly int _swPin;
         private PinValue _lastDtState;
+        private bool _buttonHeldDown;
+        private CancellationTokenSource _buttonPressCancellationTokenSource;
 
         public event EventHandler RotatedClockwise;
         public event EventHandler RotatedCounterClockwise;
         public event EventHandler ButtonPressed;
         public event EventHandler ButtonReleased;
+        public event EventHandler ResetEvent; // New event
 
         public RotaryEncoder(int dtPin, int clkPin, int swPin)
         {
@@ -32,6 +40,8 @@ namespace BrfSvalanApi.Input
             _controller.RegisterCallbackForPinValueChangedEvent(_dtPin, PinEventTypes.Falling | PinEventTypes.Rising, RotaryTurned);
             _controller.RegisterCallbackForPinValueChangedEvent(_swPin, PinEventTypes.Falling, ButtonPushed);
             _controller.RegisterCallbackForPinValueChangedEvent(_swPin, PinEventTypes.Rising, ButtonReleasedCallback);
+
+            _buttonHeldDown = false;
         }
 
         private void RotaryTurned(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
@@ -52,22 +62,51 @@ namespace BrfSvalanApi.Input
             _lastDtState = currentDtState;
         }
 
-        private void ButtonPushed(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
+        private async void ButtonPushed(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
         {
+            _buttonHeldDown = true;
             ButtonPressed?.Invoke(this, EventArgs.Empty);
+            _buttonPressCancellationTokenSource = new CancellationTokenSource();
+
+            try
+            {
+                await Task.Delay(3000, _buttonPressCancellationTokenSource.Token); // Wait for 3 seconds
+
+                if (_buttonHeldDown)
+                {
+                    ResetEvent?.Invoke(this, EventArgs.Empty);
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                // Button was released before 3 seconds
+            }
         }
 
         private void ButtonReleasedCallback(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
         {
-            ButtonReleased?.Invoke(this, EventArgs.Empty);
+            if (_buttonHeldDown)
+            {
+                _buttonPressCancellationTokenSource.Cancel();
+                _buttonHeldDown = false;
+
+                if (_buttonPressCancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    // Don't raise ButtonReleased if it was held down for 3 seconds
+                    return;
+                }
+
+                ButtonReleased?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public async Task StartListening(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(10, stoppingToken);  // Poll every 100ms, adjust as needed
+                await Task.Delay(10, stoppingToken);  // Poll every 10ms, adjust as needed
             }
         }
     }
 }
+

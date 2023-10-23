@@ -44,6 +44,7 @@ namespace BrfSvalanApi
             _inputReader.RotatedClockwise += (sender, args) => inputManager.HandleRotation(true);
             _inputReader.RotatedCounterClockwise += (sender, args) => inputManager.HandleRotation(false);
             _inputReader.ButtonReleased += (sender, args) => inputManager.HandleSelection();
+            _inputReader.ResetEvent += (sender, args) => inputManager.Reset();
             await _inputReader.StartListening(stoppingToken);
 
             // Cleanup resources when the service stops

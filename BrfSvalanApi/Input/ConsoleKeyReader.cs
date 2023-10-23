@@ -6,6 +6,7 @@
         public event EventHandler RotatedCounterClockwise;
         public event EventHandler ButtonPressed;
         public event EventHandler ButtonReleased;
+        public event EventHandler ResetEvent;
 
         private HashSet<ConsoleKey> pressedKeys = new HashSet<ConsoleKey>();
 
@@ -39,6 +40,10 @@
             if (key == ConsoleKey.Enter)
             {
                 ButtonPressed?.Invoke(this, EventArgs.Empty);
+            }
+            else if(key == ConsoleKey.Escape)
+            {
+                ResetEvent?.Invoke(this, EventArgs.Empty);
             }
         }
 
