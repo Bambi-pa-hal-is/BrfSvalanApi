@@ -21,6 +21,7 @@ namespace BrfSvalanApi.Print
             }
             if (!IsPrinterIdle())
             {
+                Console.WriteLine("Failed to print because printer is offline.");
                 return false;
             }
 
@@ -36,7 +37,7 @@ namespace BrfSvalanApi.Print
             var statusCommand = $"lpstat -p {PrinterName} | grep 'Unable'";
             var statusOutput = ExecuteShellCommand(statusCommand);
             Console.WriteLine(statusOutput);
-            return !string.IsNullOrEmpty(statusOutput);
+            return string.IsNullOrEmpty(statusOutput);
         }
 
         private static string ExecuteShellCommand(string command)
