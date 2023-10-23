@@ -73,7 +73,7 @@ namespace BrfSvalanApi.Input
 
             try
             {
-                await Task.Delay(3000, _buttonPressCancellationTokenSource.Token); // Wait for 3 seconds
+                await Task.Delay(1500, _buttonPressCancellationTokenSource.Token); // Wait for 3 seconds
 
                 if (_buttonHeldDown)
                 {
@@ -85,7 +85,7 @@ namespace BrfSvalanApi.Input
                 // Check the time between button press and release to decide which event to raise.
                 var durationPressed = DateTime.Now - _buttonPressTimestamp.Value;
 
-                if (durationPressed < TimeSpan.FromSeconds(3))
+                if (durationPressed < TimeSpan.FromSeconds(1.5))
                 {
                     ButtonReleased?.Invoke(this, EventArgs.Empty);
                 }
