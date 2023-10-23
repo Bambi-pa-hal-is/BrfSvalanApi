@@ -35,6 +35,7 @@ namespace BrfSvalanApi
             Console.WriteLine("Executing printservice!");
 
             var inputManager = new InputManager(_display);
+            inputManager.UpdateLastActionTime();
             var mainMenu = new MainMenu(new List<IPipeline>()
             {
                 new PrintPipeline(),
