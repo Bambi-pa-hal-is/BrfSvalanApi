@@ -14,6 +14,7 @@ namespace BrfSvalanApi.Input
         private readonly int _clkPin;
         private readonly int _swPin;
         private PinValue _lastDtState;
+        private DateTime? _buttonPressTimestamp;
         private bool _buttonHeldDown;
         private bool _buttonWasQuicklyReleased = false;
         private CancellationTokenSource _buttonPressCancellationTokenSource;
@@ -66,7 +67,7 @@ namespace BrfSvalanApi.Input
         private async void ButtonPushed(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
         {
             _buttonHeldDown = true;
-            _buttonWasQuicklyReleased = false;
+            _buttonPressTimestamp = DateTime.Now;
             ButtonPressed?.Invoke(this, EventArgs.Empty);
             _buttonPressCancellationTokenSource = new CancellationTokenSource();
 
@@ -81,8 +82,10 @@ namespace BrfSvalanApi.Input
             }
             catch (TaskCanceledException)
             {
-                // Button was released before 3 seconds. Check if it was a quick release.
-                if (_buttonWasQuicklyReleased)
+                // Check the time between button press and release to decide which event to raise.
+                var durationPressed = DateTime.Now - _buttonPressTimestamp.Value;
+
+                if (durationPressed < TimeSpan.FromSeconds(3))
                 {
                     ButtonReleased?.Invoke(this, EventArgs.Empty);
                 }
@@ -95,16 +98,6 @@ namespace BrfSvalanApi.Input
             {
                 _buttonPressCancellationTokenSource.Cancel();
                 _buttonHeldDown = false;
-
-                if (!_buttonPressCancellationTokenSource.Token.IsCancellationRequested)
-                {
-                    _buttonWasQuicklyReleased = true;
-                }
-                else
-                {
-                    // Reset the flag for the next button push.
-                    _buttonWasQuicklyReleased = false;
-                }
             }
         }
 
