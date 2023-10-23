@@ -11,12 +11,19 @@ namespace BrfSvalanApi.Scan
             if (properties == null)
                 throw new ArgumentNullException(nameof(properties));
 
+            // Ensure the 'scans' folder exists
+            string scansFolder = Path.Combine(properties.Location, "scans");
+            if (!Directory.Exists(scansFolder))
+            {
+                Directory.CreateDirectory(scansFolder);
+            }
+
             // Generate a unique filename based on the current date and time
             string filename = $"{DateTime.Now:yyyyMMdd_HHmmss}.{properties.FileFormat}";
-            string outputPath = Path.Combine(properties.Location, filename);
+            string outputPath = Path.Combine(scansFolder, filename);
 
             // Construct the command
-            string cmd = $"scanimage --resolution {properties.Resolution} --format {properties.FileFormat} > {outputPath}";
+            string cmd = $"sudo scanimage --resolution {properties.Resolution} --format {properties.FileFormat} > {outputPath}";
             Console.WriteLine(cmd);
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
