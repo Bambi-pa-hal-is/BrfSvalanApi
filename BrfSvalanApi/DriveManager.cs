@@ -39,7 +39,7 @@ namespace BrfSvalanApi
             if (!string.IsNullOrEmpty(deviceToMount))
             {
                 RunCommand($"sudo mount -o uid=1000,gid=1000 {deviceToMount} {GetMountPoint()}");
-                Console.WriteLine($"Mounted drive {deviceToMount}");
+                Console.WriteLine($"Mounted drive {deviceToMount}!!");
                 IsUsbMounted = true;
                 return true;
             }
