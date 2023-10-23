@@ -37,9 +37,9 @@ namespace BrfSvalanApi.Print
             var statusCommand = $"lpstat -p {PrinterName}";
             
             var statusOutput = ExecuteShellCommand(statusCommand);
+            Console.WriteLine(statusOutput);
             if (statusOutput.Contains("idle", StringComparison.InvariantCultureIgnoreCase))
             {
-                Console.WriteLine(statusOutput);
                 return true;
             }
             return false;
