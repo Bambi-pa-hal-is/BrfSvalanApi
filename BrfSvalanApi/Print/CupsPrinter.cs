@@ -1,5 +1,6 @@
 ﻿using static BrfSvalanApi.Print.PrintPipeline;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace BrfSvalanApi.Print
 {
@@ -9,6 +10,10 @@ namespace BrfSvalanApi.Print
 
         public static void Print(PrintProperties properties)
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return;
+            }
             if (string.IsNullOrEmpty(properties.File))
             {
                 throw new ArgumentException("File path cannot be null or empty.");

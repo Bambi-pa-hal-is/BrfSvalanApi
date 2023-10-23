@@ -6,11 +6,11 @@ namespace BrfSvalanApi.Print
     public class CopiesStep : IPipelineStep, IRenderableComponent
     {
         public int Copies { get; set; } = 1;
-        public void Action(LcdDisplay display)
+        public void Action(IDisplay display)
         {
         }
 
-        public void Decrease(LcdDisplay display)
+        public void Decrease(IDisplay display)
         {
             Copies--;
             if(Copies < 1)
@@ -19,7 +19,7 @@ namespace BrfSvalanApi.Print
             }
         }
 
-        public void Increase(LcdDisplay display)
+        public void Increase(IDisplay display)
         {
             Copies++;
         }
@@ -28,7 +28,7 @@ namespace BrfSvalanApi.Print
         {
         }
 
-        public void Render(LcdDisplay display)
+        public void Render(IDisplay display)
         {
             display.ClearDisplay();
             display.Write(0, 0, "Hur manga kopior?");

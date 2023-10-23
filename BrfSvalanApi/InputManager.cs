@@ -4,9 +4,9 @@ namespace BrfSvalanApi
 {
     public class InputManager
     {
-        private readonly LcdDisplay _display;
+        private readonly IDisplay _display;
 
-        public InputManager(LcdDisplay display)
+        public InputManager(IDisplay display)
         {
             _display = display;
         }

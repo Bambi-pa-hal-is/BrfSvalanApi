@@ -9,20 +9,20 @@ namespace BrfSvalanApi
             Error = error;
         }
 
-        public void Action(LcdDisplay display)
+        public void Action(IDisplay display)
         {
             display.GoToDefaultDisplay();
         }
 
-        public void Decrease(LcdDisplay display)
+        public void Decrease(IDisplay display)
         {
         }
 
-        public void Increase(LcdDisplay display)
+        public void Increase(IDisplay display)
         {
         }
 
-        public void Render(LcdDisplay display)
+        public void Render(IDisplay display)
         {
             display.ClearDisplay();
             display.Write(Error);

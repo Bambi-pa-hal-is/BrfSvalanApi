@@ -10,27 +10,27 @@ namespace BrfSvalanApi.Print
 
         public SelectDocumentStep()
         {
-            if (!Directory.Exists(DriveManager.MountPoint))
+            if (!Directory.Exists(DriveManager.GetMountPoint()))
             {
-                throw new DirectoryNotFoundException($"The directory '{DriveManager.MountPoint}' was not found.");
+                throw new DirectoryNotFoundException($"The directory '{DriveManager.GetMountPoint()}' was not found.");
             }
-            Files = Directory.GetFiles(DriveManager.MountPoint).ToList();
+            Files = Directory.GetFiles(DriveManager.GetMountPoint()).ToList();
         }
 
         public void Reset()
         {
-            if (!Directory.Exists(DriveManager.MountPoint))
+            if (!Directory.Exists(DriveManager.GetMountPoint()))
             {
-                throw new DirectoryNotFoundException($"The directory '{DriveManager.MountPoint}' was not found.");
+                throw new DirectoryNotFoundException($"The directory '{DriveManager.GetMountPoint()}' was not found.");
             }
-            Files = Directory.GetFiles(DriveManager.MountPoint).ToList();
+            Files = Directory.GetFiles(DriveManager.GetMountPoint()).ToList();
         }
 
-        public void Action(LcdDisplay display)
+        public void Action(IDisplay display)
         {
         }
 
-        public void Decrease(LcdDisplay display)
+        public void Decrease(IDisplay display)
         {
             SelectFile--;
             if (SelectFile < 0)
@@ -40,7 +40,7 @@ namespace BrfSvalanApi.Print
 
         }
 
-        public void Increase(LcdDisplay display)
+        public void Increase(IDisplay display)
         {
             SelectFile++;
             if(SelectFile >= Files.Count)
@@ -54,7 +54,7 @@ namespace BrfSvalanApi.Print
             return Files[SelectFile];
         }
 
-        public void Render(LcdDisplay display)
+        public void Render(IDisplay display)
         {
             if (Files.Count == 0)
             {
@@ -95,11 +95,11 @@ namespace BrfSvalanApi.Print
 
         public void Load()
         {
-            if (!Directory.Exists(DriveManager.MountPoint))
+            if (!Directory.Exists(DriveManager.GetMountPoint()))
             {
-                throw new DirectoryNotFoundException($"The directory '{DriveManager.MountPoint}' was not found.");
+                throw new DirectoryNotFoundException($"The directory '{DriveManager.GetMountPoint()}' was not found.");
             }
-            Files = Directory.GetFiles(DriveManager.MountPoint).ToList();
+            Files = Directory.GetFiles(DriveManager.GetMountPoint()).ToList();
         }
     }
 }

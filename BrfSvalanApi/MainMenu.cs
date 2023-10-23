@@ -22,7 +22,7 @@ namespace BrfSvalanApi
             DriveManager = new DriveManager();
         }
 
-        public void Action(LcdDisplay display)
+        public void Action(IDisplay display)
         {
             var selectedPipeline = Pipelines[Selected];
             var pipelineAsRenderableComponent = selectedPipeline as IRenderableComponent;
@@ -41,7 +41,7 @@ namespace BrfSvalanApi
             }
         }
 
-        public void Decrease(LcdDisplay display)
+        public void Decrease(IDisplay display)
         {
             Selected--;
             if (Selected < 0)
@@ -52,7 +52,7 @@ namespace BrfSvalanApi
             display.Update();
         }
 
-        public void Increase(LcdDisplay display)
+        public void Increase(IDisplay display)
         {
             Selected++;
             if (Selected > Pipelines.Count - 1)
@@ -63,7 +63,7 @@ namespace BrfSvalanApi
             display.Update();
         }
 
-        public void Render(LcdDisplay lcdDisplay)
+        public void Render(IDisplay lcdDisplay)
         {
             lcdDisplay.ClearDisplay();
             if(Selected == 0)

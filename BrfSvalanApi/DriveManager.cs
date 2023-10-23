@@ -1,20 +1,38 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace BrfSvalanApi
 {
     public class DriveManager
     {
         private readonly string[] targetDevices = { "/dev/sda1", "/dev/sdb1", "/dev/sdc1" };
-        public static string MountPoint = "/media/printdrive";
+        //public static string MountPoint = "/media/printdrive";
+        //public static string MountPoint2 = "/media/printdrive";
+
+        public static string GetMountPoint()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return @"C:\temp";
+            }
+            else
+            {
+                return "/media/printdrive";
+            }
+        }
 
         public bool Mount()
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return true;
+            }
             EnsureMountPointExists();
             string deviceToMount = GetDeviceToMount();
 
             if (!string.IsNullOrEmpty(deviceToMount))
             {
-                RunCommand($"sudo mount -o uid=1000,gid=1000 {deviceToMount} {MountPoint}");
+                RunCommand($"sudo mount -o uid=1000,gid=1000 {deviceToMount} {GetMountPoint()}");
                 Console.WriteLine($"Mounted drive {deviceToMount}");
                 return true;
             }
@@ -27,15 +45,23 @@ namespace BrfSvalanApi
 
         private void EnsureMountPointExists()
         {
-            if (!Directory.Exists(MountPoint))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                RunCommand($"sudo mkdir -p {MountPoint}");
+                return;
+            }
+            if (!Directory.Exists(GetMountPoint()))
+            {
+                RunCommand($"sudo mkdir -p {GetMountPoint()}");
             }
         }
 
         public void Unmount()
         {
-            RunCommand($"sudo umount {MountPoint}");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return;
+            }
+            RunCommand($"sudo umount {GetMountPoint()}");
         }
 
         private string GetDeviceToMount()

@@ -1,8 +1,8 @@
 ﻿using System.Device.Gpio;
 
-namespace BrfSvalanApi
+namespace BrfSvalanApi.Input
 {
-    public class RotaryEncoder
+    public class RotaryEncoder : IInputReader
     {
         private readonly GpioController _controller;
         private readonly int _dtPin;
@@ -60,6 +60,14 @@ namespace BrfSvalanApi
         private void ButtonReleasedCallback(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
         {
             ButtonReleased?.Invoke(this, EventArgs.Empty);
+        }
+
+        public async Task StartListening(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(1, stoppingToken);  // Poll every 100ms, adjust as needed
+            }
         }
     }
 }

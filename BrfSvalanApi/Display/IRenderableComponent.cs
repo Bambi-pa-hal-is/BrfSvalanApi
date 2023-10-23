@@ -2,12 +2,10 @@
 {
     public interface IRenderableComponent
     {
-        public void Render(LcdDisplay display);
-        void Increase(LcdDisplay display);
-        void Decrease(LcdDisplay display);
-        void Action(LcdDisplay display);
+        public void Render(IDisplay display);
+        void Increase(IDisplay display);
+        void Decrease(IDisplay display);
+        void Action(IDisplay display);
         void Load();
     }
-
-
 }

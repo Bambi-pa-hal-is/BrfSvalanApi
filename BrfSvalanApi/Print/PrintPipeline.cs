@@ -44,14 +44,14 @@ namespace BrfSvalanApi.Print
             return Steps[PipelineStep];
         }
 
-        public void Render(LcdDisplay display)
+        public void Render(IDisplay display)
         {
             var currentStep = GetCurrentStep();
             var renderableComponent = currentStep as IRenderableComponent;
             display.Render(renderableComponent);
         }
 
-        public void Increase(LcdDisplay display)
+        public void Increase(IDisplay display)
         {
             var currentStep = GetCurrentStep();
             var renderableComponent = currentStep as IRenderableComponent;
@@ -62,7 +62,7 @@ namespace BrfSvalanApi.Print
             }
         }
 
-        public void Decrease(LcdDisplay display)
+        public void Decrease(IDisplay display)
         {
             var currentStep = GetCurrentStep();
             var renderableComponent = currentStep as IRenderableComponent;
@@ -73,7 +73,7 @@ namespace BrfSvalanApi.Print
             }
         }
 
-        public void Action(LcdDisplay display)
+        public void Action(IDisplay display)
         {
             Console.WriteLine("Next step! " + PipelineStep);
             var currentStep = GetCurrentStep();
