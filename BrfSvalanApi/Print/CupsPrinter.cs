@@ -20,6 +20,7 @@ namespace BrfSvalanApi.Print
             }
 
             var command = $"lp -d {PrinterName} -n {properties.Copies} {properties.File}";
+            Console.WriteLine(command);
 
             ExecuteShellCommand(command);
         }
