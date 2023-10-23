@@ -24,6 +24,7 @@ namespace BrfSvalanApi.Print
 
         public void Action(IDisplay display)
         {
+            Console.WriteLine("Action from Select document step!");
         }
 
         public void Decrease(IDisplay display)
