@@ -34,10 +34,15 @@ namespace BrfSvalanApi.Print
 
         private static bool IsPrinterIdle()
         {
-            var statusCommand = $"lpstat -p {PrinterName} | grep 'Unable'";
+            var statusCommand = $"lpstat -p {PrinterName}";
+            
             var statusOutput = ExecuteShellCommand(statusCommand);
-            Console.WriteLine(statusOutput);
-            return string.IsNullOrEmpty(statusOutput);
+            if (statusOutput.Contains("idle", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Console.WriteLine(statusOutput);
+                return true;
+            }
+            return false;
         }
 
         private static string ExecuteShellCommand(string command)
