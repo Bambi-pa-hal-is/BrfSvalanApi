@@ -14,16 +14,12 @@ namespace BrfSvalanApi.Print
             {
                 throw new DirectoryNotFoundException($"The directory '{DriveManager.GetMountPoint()}' was not found.");
             }
-            Files = Directory.GetFiles(DriveManager.GetMountPoint()).ToList();
+            Files = new List<string>();
         }
 
         public void Reset()
         {
-            if (!Directory.Exists(DriveManager.GetMountPoint()))
-            {
-                throw new DirectoryNotFoundException($"The directory '{DriveManager.GetMountPoint()}' was not found.");
-            }
-            Files = Directory.GetFiles(DriveManager.GetMountPoint()).ToList();
+            Files = new List<string>();
         }
 
         public void Action(IDisplay display)
@@ -37,7 +33,6 @@ namespace BrfSvalanApi.Print
             {
                 SelectFile = Files.Count-1;
             }
-
         }
 
         public void Increase(IDisplay display)
@@ -56,9 +51,13 @@ namespace BrfSvalanApi.Print
 
         public void Render(IDisplay display)
         {
+            if (!Directory.Exists(DriveManager.GetMountPoint()))
+            {
+                throw new DirectoryNotFoundException($"The directory '{DriveManager.GetMountPoint()}' was not found.");
+            }
+            Files = Directory.GetFiles(DriveManager.GetMountPoint()).ToList();
             if (Files.Count == 0)
             {
-
                 display.ClearDisplay();
                 display.Write(0, 0, "Inga filer hittades");
                 Thread.Sleep(1000);
@@ -76,7 +75,6 @@ namespace BrfSvalanApi.Print
                 display.Write(0, 0, "Vilken fil?");
                 display.Write(0, 1, fileName);
             }
-            
         }
 
         public void UpdatePipelineProperties(IPipelineProperties pipelineProperties)
@@ -98,11 +96,6 @@ namespace BrfSvalanApi.Print
         public void Load()
         {
             Console.WriteLine("Loaded SelectDocumentStep");
-            if (!Directory.Exists(DriveManager.GetMountPoint()))
-            {
-                throw new DirectoryNotFoundException($"The directory '{DriveManager.GetMountPoint()}' was not found.");
-            }
-            Files = Directory.GetFiles(DriveManager.GetMountPoint()).ToList();
         }
     }
 }
