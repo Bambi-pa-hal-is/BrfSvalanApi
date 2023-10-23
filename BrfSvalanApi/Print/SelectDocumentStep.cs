@@ -93,7 +93,9 @@ namespace BrfSvalanApi.Print
                 }
                 else
                 {
+
                     printProperties.File = GetCurrentFile();
+                    Console.WriteLine("Selected : " + printProperties.File);
                 }
             }
         }
