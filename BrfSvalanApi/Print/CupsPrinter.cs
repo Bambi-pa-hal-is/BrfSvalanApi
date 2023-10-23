@@ -16,6 +16,7 @@ namespace BrfSvalanApi.Print
             }
             if (string.IsNullOrEmpty(properties.File))
             {
+                Console.WriteLine(properties.File + " Is this really null?");
                 throw new ArgumentException("File path cannot be null or empty.");
             }
             if (!IsPrinterIdle())
