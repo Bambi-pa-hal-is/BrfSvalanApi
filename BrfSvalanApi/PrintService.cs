@@ -32,15 +32,6 @@ namespace BrfSvalanApi
         {
             Console.WriteLine("Executing printservice!");
 
-            var applicationDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            //var printSubMenu = new FileMenu(applicationDirectory);
-
-            //var mainMenu = new Menu("Vad vill du göra?");
-            //mainMenu.Items.Add(new MenuItem("Print", () => { }, printSubMenu));
-            //mainMenu.Items.Add(new MenuItem("Scan", () => { }));
-
-            // Add USB files here. Each MenuItem could be like new MenuItem("File1.txt", SelectFileAction);
-
             var inputManager = new InputManager(_display);
             var mainMenu = new MainMenu(new List<IPipeline>()
             {
