@@ -1,6 +1,7 @@
 ﻿using BrfSvalanApi.Display;
 using BrfSvalanApi.Input;
 using BrfSvalanApi.Print;
+using BrfSvalanApi.Scan;
 using Iot.Device.CharacterLcd;
 using System.Device.Gpio;
 using System.Device.I2c;
@@ -35,7 +36,8 @@ namespace BrfSvalanApi
             var inputManager = new InputManager(_display);
             var mainMenu = new MainMenu(new List<IPipeline>()
             {
-                new PrintPipeline()
+                new PrintPipeline(),
+                new ScanPipeline()
             });
             _display.SetDefaultDisplay(mainMenu);
             _display.SetDisplay(mainMenu);

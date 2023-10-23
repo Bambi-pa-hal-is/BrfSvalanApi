@@ -46,7 +46,6 @@ namespace BrfSvalanApi
             {
                 Selected = Pipelines.Count-1;
             }
-            Console.WriteLine(Selected);
             display.Update();
         }
 
@@ -57,7 +56,6 @@ namespace BrfSvalanApi
             {
                 Selected = 0;
             }
-            Console.WriteLine(Selected);
             display.Update();
         }
 
