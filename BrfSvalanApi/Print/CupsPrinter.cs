@@ -42,6 +42,7 @@ namespace BrfSvalanApi.Print
         public static void CancelAllJobs()
         {
             var command = $"cancel -a {PrinterName}";
+            ExecuteShellCommand(command);
         }
 
         private static bool IsPrinterIdle()
