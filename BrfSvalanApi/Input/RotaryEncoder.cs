@@ -66,7 +66,7 @@ namespace BrfSvalanApi.Input
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(1, stoppingToken);  // Poll every 100ms, adjust as needed
+                await Task.Delay(10, stoppingToken);  // Poll every 100ms, adjust as needed
             }
         }
     }
