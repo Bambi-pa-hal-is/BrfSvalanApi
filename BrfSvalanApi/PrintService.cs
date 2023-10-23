@@ -52,7 +52,7 @@ namespace BrfSvalanApi
             {
                 await _inputReader.Listen(stoppingToken);
 
-                if (DateTime.Now - inputManager.GetLastActionTime() > TimeSpan.FromMinutes(5))
+                if (DateTime.Now - inputManager.GetLastActionTime() > TimeSpan.FromMinutes(30))
                 {
                     // If running on Linux (Raspberry Pi typically runs a version of Linux), shut down
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
