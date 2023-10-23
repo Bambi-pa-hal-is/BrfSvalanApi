@@ -38,6 +38,7 @@ namespace BrfSvalanApi.Scan
             Properties = new ScanProperties();
             Steps = new List<IPipelineStep>()
             {
+                new IsPrinterStarted(),
                 new FileFormatStep(),
                 new ResolutionStep(),
             };

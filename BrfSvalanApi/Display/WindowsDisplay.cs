@@ -8,6 +8,7 @@
         {
             Console.SetCursorPosition(0, 0);
             Console.WriteLine(value);
+            Console.SetCursorPosition(0, 10);
         }
 
         public IRenderableComponent? GetDisplayedComponent()
@@ -41,6 +42,7 @@
         {
             Console.SetCursorPosition(x, y);
             Console.Write(value);
+            Console.SetCursorPosition(0, 10);
         }
 
         public void ClearDisplay()
