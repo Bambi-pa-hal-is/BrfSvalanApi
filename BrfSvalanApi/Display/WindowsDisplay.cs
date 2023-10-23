@@ -66,5 +66,9 @@
                 Render(_defaultRenderableComponent);
             }
         }
+
+        public void SetBacklight(bool state)
+        {
+        }
     }
 }

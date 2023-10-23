@@ -61,6 +61,11 @@ namespace BrfSvalanApi.Display
             }
         }
 
+        public void SetBacklight(bool state)
+        {
+            _lcd.BacklightOn = state;
+        }
+
         public void Write(int x, int y, string value)
         {
             _lcd.SetCursorPosition(x, y);

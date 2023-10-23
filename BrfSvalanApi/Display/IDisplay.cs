@@ -7,6 +7,7 @@
         IRenderableComponent? GetDisplayedComponent();
         void GoToDefaultDisplay();
         void Render(IRenderableComponent? renderableComponent);
+        void SetBacklight(bool state);
         void SetDefaultDisplay(IRenderableComponent renderableComponent);
         void SetDisplay(IRenderableComponent renderableComponent);
         void Update();

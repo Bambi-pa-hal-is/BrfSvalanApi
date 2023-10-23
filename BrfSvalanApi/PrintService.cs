@@ -43,6 +43,7 @@ namespace BrfSvalanApi
             });
             _display.SetDefaultDisplay(mainMenu);
             _display.SetDisplay(mainMenu);
+            _display.SetBacklight(true);
             _inputReader.RotatedClockwise += (sender, args) => inputManager.HandleRotation(true);
             _inputReader.RotatedCounterClockwise += (sender, args) => inputManager.HandleRotation(false);
             _inputReader.ButtonReleased += (sender, args) => inputManager.HandleSelection();
@@ -51,11 +52,13 @@ namespace BrfSvalanApi
             {
                 await _inputReader.Listen(stoppingToken);
 
-                if (DateTime.Now - inputManager.GetLastActionTime() > TimeSpan.FromMinutes(1))
+                if (DateTime.Now - inputManager.GetLastActionTime() > TimeSpan.FromMinutes(5))
                 {
                     // If running on Linux (Raspberry Pi typically runs a version of Linux), shut down
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                     {
+                        _display.SetBacklight(false);
+                        _display.ClearDisplay();
                         Process.Start("sudo", "shutdown -h now"); // shutdown the Raspberry Pi
                     }
                 }
