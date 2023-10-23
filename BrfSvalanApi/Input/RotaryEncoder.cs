@@ -101,12 +101,9 @@ namespace BrfSvalanApi.Input
             }
         }
 
-        public async Task StartListening(CancellationToken stoppingToken)
+        public async Task Listen(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                await Task.Delay(10, stoppingToken);  // Poll every 10ms, adjust as needed
-            }
+            await Task.Delay(10, stoppingToken);  // Poll every 10ms, adjust as needed
         }
     }
 }

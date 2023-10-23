@@ -5,6 +5,7 @@ using BrfSvalanApi.Scan;
 using Iot.Device.CharacterLcd;
 using System.Device.Gpio;
 using System.Device.I2c;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace BrfSvalanApi
@@ -45,7 +46,19 @@ namespace BrfSvalanApi
             _inputReader.RotatedCounterClockwise += (sender, args) => inputManager.HandleRotation(false);
             _inputReader.ButtonReleased += (sender, args) => inputManager.HandleSelection();
             _inputReader.ResetEvent += (sender, args) => inputManager.Reset();
-            await _inputReader.StartListening(stoppingToken);
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await _inputReader.Listen(stoppingToken);
+
+                if (DateTime.Now - inputManager.GetLastActionTime() > TimeSpan.FromMinutes(1))
+                {
+                    // If running on Linux (Raspberry Pi typically runs a version of Linux), shut down
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                    {
+                        Process.Start("sudo", "shutdown -h now"); // shutdown the Raspberry Pi
+                    }
+                }
+            }
 
             // Cleanup resources when the service stops
             DriveManager.Unmount();

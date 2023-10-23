@@ -14,25 +14,24 @@
         {
         }
 
-        public async Task StartListening(CancellationToken stoppingToken)
+        public async Task Listen(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                if (Console.KeyAvailable)
-                {
-                    var keyInfo = Console.ReadKey(true);
-                    HandleKeyPress(keyInfo.Key);
 
-                    // Record the key press
-                    pressedKeys.Add(keyInfo.Key);
-                }
-                else
-                {
-                    // No key is currently being pressed, check for key release events
-                    CheckForReleaseEvents();
-                }
-                await Task.Delay(1, stoppingToken);
+            if (Console.KeyAvailable)
+            {
+                var keyInfo = Console.ReadKey(true);
+                HandleKeyPress(keyInfo.Key);
+
+                // Record the key press
+                pressedKeys.Add(keyInfo.Key);
             }
+            else
+            {
+                // No key is currently being pressed, check for key release events
+                CheckForReleaseEvents();
+            }
+            await Task.Delay(1, stoppingToken);
+
         }
 
         private void HandleKeyPress(ConsoleKey key)
@@ -41,7 +40,7 @@
             {
                 ButtonPressed?.Invoke(this, EventArgs.Empty);
             }
-            else if(key == ConsoleKey.Escape)
+            else if (key == ConsoleKey.Escape)
             {
                 ResetEvent?.Invoke(this, EventArgs.Empty);
             }

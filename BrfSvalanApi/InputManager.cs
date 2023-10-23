@@ -8,6 +8,7 @@ namespace BrfSvalanApi
     {
         private readonly IDisplay _display;
         private DateTime _lastSelectionTime;
+        private DateTime _lastActionTime;
 
         public InputManager(IDisplay display)
         {
@@ -29,10 +30,12 @@ namespace BrfSvalanApi
                     currentRenderableComponent.Decrease(_display);
                 }
             }
+            UpdateLastActionTime();
         }
 
         public void Reset()
         {
+            UpdateLastActionTime();
             _display.ClearDisplay();
             _display.GoToDefaultDisplay();
         }
@@ -53,6 +56,17 @@ namespace BrfSvalanApi
 
             // Update the last selection time to now
             _lastSelectionTime = DateTime.Now;
+            UpdateLastActionTime();
+        }
+
+        public void UpdateLastActionTime()
+        {
+            _lastActionTime = DateTime.Now;
+        }
+
+        public DateTime GetLastActionTime()
+        {
+            return _lastActionTime;
         }
     }
 

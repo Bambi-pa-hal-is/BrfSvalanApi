@@ -7,6 +7,6 @@
         public event EventHandler ButtonPressed;
         public event EventHandler ButtonReleased;
         public event EventHandler ResetEvent;
-        public Task StartListening(CancellationToken stoppingToken);
+        public Task Listen(CancellationToken stoppingToken);
     }
 }
