@@ -34,7 +34,7 @@ namespace BrfSvalanApi
         public void HandleSelection()
         {
             // Check if it's been at least one second since the last call
-            if ((DateTime.Now - _lastSelectionTime).TotalSeconds < 1)
+            if ((DateTime.Now - _lastSelectionTime).TotalSeconds < 0.5)
             {
                 return;  // Exit early if it's been less than a second
             }
