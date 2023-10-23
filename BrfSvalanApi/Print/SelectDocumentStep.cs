@@ -55,7 +55,10 @@ namespace BrfSvalanApi.Print
             {
                 throw new DirectoryNotFoundException($"The directory '{DriveManager.GetMountPoint()}' was not found.");
             }
-            Files = Directory.GetFiles(DriveManager.GetMountPoint()).ToList();
+            if(Files.Count == 0)
+            {
+                Files = Directory.GetFiles(DriveManager.GetMountPoint()).ToList();
+            }
             if (Files.Count == 0)
             {
                 display.ClearDisplay();
