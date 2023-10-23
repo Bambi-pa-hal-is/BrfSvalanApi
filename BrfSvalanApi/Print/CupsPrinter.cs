@@ -29,6 +29,7 @@ namespace BrfSvalanApi.Print
             Console.WriteLine(command);
 
             var response = ExecuteShellCommand(command);
+            Thread.Sleep(1000);
             Console.WriteLine(response);
             if (!IsPrinterIdle())
             {
