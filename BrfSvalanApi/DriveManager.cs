@@ -29,7 +29,7 @@ namespace BrfSvalanApi
             }
             EnsureMountPointExists();
             string deviceToMount = GetDeviceToMount();
-
+            Unmount();
             if (!string.IsNullOrEmpty(deviceToMount))
             {
                 RunCommand($"sudo mount -o uid=1000,gid=1000 {deviceToMount} {GetMountPoint()}");
@@ -61,7 +61,9 @@ namespace BrfSvalanApi
             {
                 return;
             }
+            Console.WriteLine("Unmounting now!");
             RunCommand($"sudo umount {GetMountPoint()}");
+            Console.WriteLine("Unmounting complete!");
         }
 
         private string GetDeviceToMount()
