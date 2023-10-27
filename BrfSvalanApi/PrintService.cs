@@ -55,6 +55,10 @@ namespace BrfSvalanApi
                 if (DateTime.Now - inputManager.GetLastActionTime() > TimeSpan.FromMinutes(30))
                 {
                     // If running on Linux (Raspberry Pi typically runs a version of Linux), shut down
+                    Console.WriteLine("Shutdown!");
+                    _display.ClearDisplay();
+                    _display.Write(0, 0, "Shutting down...");
+                    Thread.Sleep(1000);
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                     {
                         _display.SetBacklight(false);
