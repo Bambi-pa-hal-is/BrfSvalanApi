@@ -27,6 +27,7 @@ namespace BrfSvalanApi.Print
                     Console.WriteLine("Failed to convert to PDF.");
                     return false;
                 }
+                Console.WriteLine("Converted to pdf!");
             }
 
             var filePath = properties.File.Replace(" ", "\\ ");
@@ -43,7 +44,7 @@ namespace BrfSvalanApi.Print
             var inputPath = properties.File;
             var outputPath = Path.ChangeExtension(inputPath, ".pdf");
 
-            var command = $"libreoffice --headless --convert-to pdf \"{inputPath}\" --outdir \"{Path.GetDirectoryName(outputPath)}\"";
+            var command = $"libreoffice --headless --convert-to pdf \"{inputPath}\" --outdir \"{outputPath}\"";
 
             var processInfo = new ProcessStartInfo
             {
