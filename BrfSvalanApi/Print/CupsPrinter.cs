@@ -20,6 +20,7 @@ namespace BrfSvalanApi.Print
                 throw new ArgumentException("File path cannot be null or empty.");
             }
             //Check if docx or any other word format here
+            bool hasConvertedToPdf = false;
             if (Path.GetExtension(properties.File).ToLower() == ".docx")
             {
                 if (!ConvertToPdf(properties))
@@ -28,6 +29,7 @@ namespace BrfSvalanApi.Print
                     return false;
                 }
                 Console.WriteLine("Converted to pdf!");
+                hasConvertedToPdf = true;
             }
 
             var filePath = properties.File.Replace(" ", "\\ ");
@@ -36,6 +38,20 @@ namespace BrfSvalanApi.Print
 
             CancelAllJobs();
             ExecuteShellCommand(command);
+            if(hasConvertedToPdf)
+            {
+                try
+                {
+                    File.Delete(properties.File);
+                    Console.WriteLine($"Deleted PDF file: {properties.File}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error deleting PDF file: {ex.Message}");
+                    // You might want to decide how to handle this. 
+                    // For example, you could return false if file deletion is critical.
+                }
+            }
             return true;
         }
 
