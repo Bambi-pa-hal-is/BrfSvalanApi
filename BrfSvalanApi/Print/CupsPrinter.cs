@@ -20,7 +20,7 @@ namespace BrfSvalanApi.Print
                 throw new ArgumentException("File path cannot be null or empty.");
             }
 
-            var command = $"lp -d {PrinterName} -n {properties.Copies} {properties.File}";
+            var command = $"lp -d {PrinterName} -n {properties.Copies} \"{properties.File}\"";
             Console.WriteLine(command);
 
             CancelAllJobs();
