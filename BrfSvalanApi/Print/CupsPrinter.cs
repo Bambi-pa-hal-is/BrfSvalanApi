@@ -42,6 +42,7 @@ namespace BrfSvalanApi.Print
         public static bool ConvertToPdf(PrintProperties properties)
         {
             var inputPath = properties.File;
+            inputPath = inputPath.Replace(" ", "\\ ");
             var outputPath = Path.ChangeExtension(inputPath, ".pdf");
             var outputDir = Path.GetDirectoryName(outputPath);
 
