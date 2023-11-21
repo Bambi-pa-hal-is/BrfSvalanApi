@@ -19,6 +19,15 @@ namespace BrfSvalanApi.Print
                 Console.WriteLine(properties.File + " Is this really null?");
                 throw new ArgumentException("File path cannot be null or empty.");
             }
+            //Check if docx or any other word format here
+            if (Path.GetExtension(properties.File).ToLower() == ".docx")
+            {
+                if (!ConvertToPdf(properties))
+                {
+                    Console.WriteLine("Failed to convert to PDF.");
+                    return false;
+                }
+            }
 
             var filePath = properties.File.Replace(" ", "\\ ");
             var command = $"lp -d {PrinterName} -n {properties.Copies} {filePath}";
@@ -27,6 +36,41 @@ namespace BrfSvalanApi.Print
             CancelAllJobs();
             ExecuteShellCommand(command);
             return true;
+        }
+
+        public static bool ConvertToPdf(PrintProperties properties)
+        {
+            var inputPath = properties.File;
+            var outputPath = Path.ChangeExtension(inputPath, ".pdf");
+
+            var command = $"libreoffice --headless --convert-to pdf \"{inputPath}\" --outdir \"{Path.GetDirectoryName(outputPath)}\"";
+
+            var processInfo = new ProcessStartInfo
+            {
+                FileName = "/bin/bash",
+                Arguments = $"-c \"{command}\"",
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            try
+            {
+                using (var process = Process.Start(processInfo))
+                {
+                    process.WaitForExit();
+                    if (process.ExitCode == 0)
+                    {
+                        properties.File = outputPath; // Update the file path to the new PDF
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception during PDF conversion: " + ex.Message);
+            }
+
+            return false;
         }
 
         public static void CancelAllJobs()
