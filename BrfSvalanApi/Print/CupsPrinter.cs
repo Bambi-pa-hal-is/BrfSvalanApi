@@ -42,6 +42,7 @@ namespace BrfSvalanApi.Print
             {
                 try
                 {
+                    Thread.Sleep(5000);
                     File.Delete(properties.File);
                     Console.WriteLine($"Deleted PDF file: {properties.File}");
                 }

@@ -19,15 +19,21 @@ Stopping the service will terminate it if it's currently running.
 
 Run the Stop Command: In the terminal, execute:
 bash
+
 sudo systemctl stop brfsvalanapi.service
+
 Check Status: Optionally, you can check if the service has stopped:
 bash
+
 sudo systemctl status brfsvalanapi.service
+
 Starting the Service
 To manually start the service after it has been stopped or disabled.
 
 Run the Start Command: In the terminal, type:
+
 sudo systemctl start brfsvalanapi.service
+
 Check Status: Confirm that the service is running:
 sudo systemctl status brfsvalanapi.service
 Additional Notes
