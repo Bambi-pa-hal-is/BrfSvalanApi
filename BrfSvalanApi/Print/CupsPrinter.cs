@@ -45,7 +45,7 @@ namespace BrfSvalanApi.Print
             var outputPath = Path.ChangeExtension(inputPath, ".pdf");
             var workingDir = Path.GetDirectoryName(inputPath);
 
-            var command = $"libreoffice --headless --convert-to pdf \"{Path.GetFileName(inputPath)}\" --outdir \"{workingDir}\"";
+            var command = $"libreoffice --headless --convert-to pdf '{Path.GetFileName(inputPath)}' --outdir \"{workingDir}\"";
             Console.WriteLine(command);
 
             var processInfo = new ProcessStartInfo
