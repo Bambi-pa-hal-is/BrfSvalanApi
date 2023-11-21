@@ -42,17 +42,16 @@ namespace BrfSvalanApi.Print
         public static bool ConvertToPdf(PrintProperties properties)
         {
             var inputPath = properties.File;
-            inputPath = inputPath.Replace(" ", "\\ ");
             var outputPath = Path.ChangeExtension(inputPath, ".pdf");
-            var outputDir = Path.GetDirectoryName(outputPath);
+            var workingDir = Path.GetDirectoryName(inputPath);
 
-            var command = $"libreoffice --headless --convert-to pdf \"{inputPath}\" --outdir \"{outputDir}\"";
-            Console.WriteLine(command);
+            var command = $"libreoffice --headless --convert-to pdf \"{Path.GetFileName(inputPath)}\" --outdir \"{workingDir}\"";
 
             var processInfo = new ProcessStartInfo
             {
                 FileName = "/bin/bash",
                 Arguments = $"-c \"{command}\"",
+                WorkingDirectory = workingDir,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
