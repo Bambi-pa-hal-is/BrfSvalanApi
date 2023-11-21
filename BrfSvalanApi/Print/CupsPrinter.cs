@@ -43,14 +43,18 @@ namespace BrfSvalanApi.Print
         {
             var inputPath = properties.File;
             var outputPath = Path.ChangeExtension(inputPath, ".pdf");
+            var outputDir = Path.GetDirectoryName(outputPath);
 
-            var command = $"libreoffice --headless --convert-to pdf \"{inputPath}\" --outdir \"{outputPath}\"";
+            var command = $"libreoffice --headless --convert-to pdf \"{inputPath}\" --outdir \"{outputDir}\"";
+            Console.WriteLine(command);
 
             var processInfo = new ProcessStartInfo
             {
                 FileName = "/bin/bash",
                 Arguments = $"-c \"{command}\"",
                 UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 CreateNoWindow = true
             };
 
@@ -58,8 +62,14 @@ namespace BrfSvalanApi.Print
             {
                 using (var process = Process.Start(processInfo))
                 {
+                    var output = process.StandardOutput.ReadToEnd();
+                    var error = process.StandardError.ReadToEnd();
                     process.WaitForExit();
-                    if (process.ExitCode == 0)
+
+                    Console.WriteLine("Output: " + output);
+                    Console.WriteLine("Error: " + error);
+
+                    if (process.ExitCode == 0 && File.Exists(outputPath))
                     {
                         properties.File = outputPath; // Update the file path to the new PDF
                         return true;
@@ -73,6 +83,7 @@ namespace BrfSvalanApi.Print
 
             return false;
         }
+
 
         public static void CancelAllJobs()
         {
